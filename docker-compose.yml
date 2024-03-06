@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    # entrypoint: /bin/sh
+    ports:
+      - "8000:8000"
+    working_dir: /app
+    # depends_on:
+    #   - backend
+    volumes:
+      - type: bind
+        source: ./frontend
+        target: /app
+      - /app/node_modules # Prevent vite not found error
+    tty: true
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - type: bind
+        source: ./backend
+        target: /app
