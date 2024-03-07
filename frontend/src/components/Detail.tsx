@@ -36,14 +36,14 @@ function Detail() {
       Email: email
     }
     axios.put(`/api/${HN}`, person)
-      .then(res => {
+      .then(() => {
         setSuccess(true)
         setTimeout(() => {
           setSuccess(false);
         }, 3000);
         // Handle success, such as updating UI or showing a success message
       })
-      .catch(error => {
+      .catch(() => {
         setError(true)
         setTimeout(() => {
           setError(false);
@@ -61,17 +61,33 @@ function Detail() {
       Email: email
     }
     axios.post('/api/new', person)
-      .then(res => {
+      .then(() => {
         setSuccess(true)
         setTimeout(() => {
           setSuccess(false);
         }, 3000);
       })
-      .catch(error => {
+      .catch(() => {
         setError(true)
         setTimeout(() => {
           setError(false);
         }, 3000);
+      });
+  }
+
+  const remove = (e: any) => {
+    e.preventDefault();
+    axios.delete(`/api/${HN}`)
+      .then(() => {
+        window.open("/", '_parent')
+        // Handle success, such as updating UI or showing a success message
+      })
+      .catch(() => {
+        setError(true)
+        setTimeout(() => {
+          setError(false);
+        }, 3000);
+        // Handle error, such as displaying an error message
       });
   }
 
@@ -120,7 +136,9 @@ function Detail() {
         <button className="btn btn-info"
           onClick={update}
         >Save</button>
-        <button className="btn btn-error">Delete</button>
+        <button className="btn btn-error"
+          onClick={remove}
+        >Delete</button>
       </div>
       {success && (
         <div role="alert" className="alert alert-success">

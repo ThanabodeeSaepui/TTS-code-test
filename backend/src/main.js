@@ -114,6 +114,35 @@ app.post('/api/new', (req, res) => {
   })
 })
 
+app.delete('/api/:hn', (req, res) => {
+  const HN = req.params.hn;
+  console.log(`Delete ${HN}`);
+  readJSONFile('src/data.json', (err, jsonData) => {
+    if (err) {
+      res.status(500).send('Error reading JSON file');
+      return;
+    }
+    // Delete by HN
+    jsonData.data = jsonData.data.filter(item => item.HN !== HN);
+    success = false
+    // Write to json file 
+    const jsonString = JSON.stringify(jsonData, null, 2);
+    fs.writeFile('src/data.json', jsonString, (err) => {
+      if (err) {
+        console.error('Error writing file:', err);
+        return;
+      }
+      success = true
+      console.log('File has been saved successfully');
+    });
+    if (success) {
+      res.send("Data deleted successfully.");
+    } else {
+      res.send("Cannot delete data");
+    }
+  })
+})
+
 app.listen(port, () => {
   console.log(`App listening on http://localhost:${port}`)
 })
