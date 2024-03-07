@@ -1,6 +1,19 @@
 // import { Link } from "react-router-dom";
+import { useState, useEffect } from 'react';
 
 function MasterTable() {
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    fetch('/api/data')
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setData(data.data);
+      });
+  }, []);
+
   return (
     <>
       <div className="overflow-x-auto">
@@ -17,45 +30,20 @@ function MasterTable() {
           </thead>
           <tbody>
             {/* row 1 */}
-            <tr>
-              <th><button className="btn btn-outline">Edit</button></th>
-              <td>002520</td>
-              <td>Quality Control Specialist</td>
-              <td>Blue</td>
-              <td>Blue</td>
-            </tr>
-            {/* row 2 */}
-            <tr>
-              <th><button className="btn btn-outline">Edit</button></th>
-              <td>002520</td>
-              <td>Desktop Support Technician</td>
-              <td>Desktop Support Technician</td>
-              <td>Purple</td>
-            </tr>
-            {/* row 3 */}
-            <tr>
-              <th><button className="btn btn-outline">Edit</button></th>
-              <td>Brice Swyre</td>
-              <td>Tax Accountant</td>
-              <td>Tax Accountant</td>
-              <td>Red</td>
-            </tr>
-            {/* row 4 */}
-            <tr>
-              <th><button className="btn btn-outline">Edit</button></th>
-              <td>Brice Swyre</td>
-              <td>Tax Accountant</td>
-              <td>Tax Accountant</td>
-              <td>Red</td>
-            </tr>
-            {/* row 5 */}
-            <tr>
-              <th><button className="btn btn-outline">Edit</button></th>
-              <td>Brice Swyre</td>
-              <td>Tax Accountant</td>
-              <td>Tax Accountant</td>
-              <td>Red</td>
-            </tr>
+            {data.map((person) => (
+              <tr>
+                <th>
+                  <button className="btn" onClick={()=> window.open(`/details/${person.HN}`, '_parent')}>
+                    {/* <Link to={`/details/${person.HN}`}>Edit</Link> */}
+                    Edit
+                  </button>
+                </th>
+                <td>{person.HN}</td>
+                <td>{person.Name} {person.Surname}</td>
+                <td>{person.Phone}</td>
+                <td>{person.Email}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

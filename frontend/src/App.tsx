@@ -8,7 +8,7 @@ function App() {
     <>
     <Routes>
       <Route path="/" element={<MasterTable />}/>
-      <Route path="/details/:id" element={<Detail />}/>
+      <Route path="/details/:hn" element={<Detail />}/>
     </Routes>
     </>
   )
